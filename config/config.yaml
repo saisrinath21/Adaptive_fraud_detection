@@ -1,0 +1,78 @@
+# ============================================================
+# Adaptive Fraud Detection System — Configuration
+# ============================================================
+
+data:
+  transaction_path: "src/dataset/train_transaction.csv"
+  identity_path: "src/dataset/train_identity.csv"
+  processed_path: "data/processed/"
+  test_size: 0.2
+  random_state: 42
+  missing_threshold: 0.7
+  user_id_cols: ["card1", "addr1"]
+
+clustering:
+  # behavior_id = card1 + addr1 + DeviceType + P_emaildomain
+  entity_id_cols: ["card1", "addr1", "DeviceType", "P_emaildomain"]
+  pca_n_components: 20
+  random_state: 42
+  hdbscan_min_cluster_size: 30
+  hdbscan_min_samples: 15
+  hdbscan_metric: "euclidean"
+  hdbscan_cluster_selection_method: "eom"
+
+supervised:
+  enabled: true
+  n_estimators: 500
+  learning_rate: 0.05
+  num_leaves: 64
+  early_stopping_rounds: 50
+
+anomaly:
+  isolation_forest_contamination: 0.035
+  n_estimators: 200
+  random_state: 42
+  risk_weights:
+    anomaly_score: 0.25
+    outlier_probability: 0.20
+    centroid_distance: 0.15
+    amount_deviation: 0.15
+    velocity_score: 0.10
+    cluster_confidence_inv: 0.15
+
+rl:
+  learning_rate: 0.001
+  gamma: 0.99
+  epsilon_start: 1.0
+  epsilon_end: 0.01
+  epsilon_decay: 0.995
+  batch_size: 64
+  buffer_size: 50000
+  target_update_freq: 100
+  tau: 0.005
+  num_episodes: 500
+  max_steps_per_episode: 1000
+  hidden_dims: [128, 128, 64]
+  dropout: 0.2
+  rewards:
+    correct_fraud_block: 10
+    correct_approve: 3
+    correct_review_fraud: 5
+    false_positive_block: -15
+    missed_fraud: -25
+    review_cost: -1
+  num_actions: 3
+
+drift:
+  adwin_delta: 0.002
+  drift_check_interval: 1000
+  monitored_signals:
+    - "prediction_error"
+    - "risk_score"
+    - "transaction_amount"
+  epsilon_reset_value: 0.3
+
+logging:
+  level: "INFO"
+  log_dir: "experiments/logs/"
+  save_dir: "experiments/results/"
