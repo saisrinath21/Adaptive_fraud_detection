@@ -154,7 +154,7 @@ https://www.kaggle.com/c/ieee-fraud-detection/data
 Place the dataset files inside:
 
 ```text
-data/raw/
+src/dataset/
 ```
 
 ### Synthetic Dataset Support
@@ -168,9 +168,9 @@ If the IEEE-CIS dataset is unavailable, the system automatically generates reali
 Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/adaptive-ecommerce-fraud-detection.git
+git clone https://github.com/saisrinath21/adaptive_fraud_detection.git
 
-cd adaptive-ecommerce-fraud-detection
+cd adaptive_fraud_detection
 ```
 
 Install dependencies:
@@ -315,11 +315,3 @@ This project is intended for academic and research purposes.
 See the LICENSE file for more information.
 
 ---
-
-## Author
-
-**Sai Srinath**
-
-Adaptive E-Commerce Fraud Detection System
-
-Built using Machine Learning, Reinforcement Learning, and Concept Drift Detection for adaptive fraud prevention.
